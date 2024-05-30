@@ -3,7 +3,7 @@ name: Build latest (Windows)
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 concurrency:
@@ -27,7 +27,8 @@ jobs:
         run: |
           sudo apt-get -y install gcc-mingw-w64-i686
           LATEST_FLAG=-DCC_COMMIT_SHA=\"$(git rev-parse --short "$GITHUB_SHA")\"
-          sudo pacman -S mingw-w64-ucrt-x86_64-{toolchain,cmake,SDL2,glew}
+          sudo apt install pacman
+          pacman -S mingw-w64-ucrt-x86_64-{toolchain,cmake,SDL2,glew}
           
           cd src
           i686-w64-mingw32-gcc *.c ${{ env.COMMON_FLAGS }} ${{ env.WIN32_FLAGS }} -o cc-w32-d3d9.exe  $LATEST_FLAG -lwinmm -limagehlp
@@ -53,7 +54,8 @@ jobs:
         run: |
           sudo apt-get -y install gcc-mingw-w64-x86-64
           LATEST_FLAG=-DCC_COMMIT_SHA=\"$(git rev-parse --short "$GITHUB_SHA")\"  
-          sudo pacman -S mingw-w64-ucrt-x86_64-{toolchain,cmake,SDL2,glew}
+          sudo apt install pacman
+          pacman -S mingw-w64-ucrt-x86_64-{toolchain,cmake,SDL2,glew}
           
           cd src
           x86_64-w64-mingw32-gcc *.c ${{ env.COMMON_FLAGS }} ${{ env.WIN64_FLAGS }} -o cc-w64-d3d9.exe  $LATEST_FLAG -lwinmm -limagehlp
