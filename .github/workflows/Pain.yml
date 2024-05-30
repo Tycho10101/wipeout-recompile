@@ -38,46 +38,6 @@ jobs:
           
           # mingw defaults to i686, but some really old CPUs only support i586
           i686-w64-mingw32-gcc *.c ${{ env.COMMON_FLAGS }} ${{ env.WIN32_FLAGS }} -march=i586 -o cc-w9x-ogl.exe $LATEST_FLAG -DCC_GFX_BACKEND=CC_GFX_BACKEND_GL -lwinmm -limagehlp -lopengl32
-
-
-      - uses: ./.github/actions/notify_failure
-        if: ${{ always() && steps.compile.outcome == 'failure' }}
-        with:
-          NOTIFY_MESSAGE: 'Failed to compile 32 bit Windows build'
-          WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
-          
-          
-      - uses: ./.github/actions/upload_build
-        if: ${{ always() && steps.compile.outcome == 'success' }}
-        with:
-          SOURCE_FILE: 'src/cc-w32-d3d9.exe'
-          DEST_NAME: 'ClassiCube-Win32-Direct3D9.exe'
-          
-      - uses: ./.github/actions/upload_build
-        if: ${{ always() && steps.compile.outcome == 'success' }}
-        with:
-          SOURCE_FILE: 'src/cc-w32-ogl.exe'
-          DEST_NAME: 'ClassiCube-Win32-OpenGL.exe'
-          
-      - uses: ./.github/actions/upload_build
-        if: ${{ always() && steps.compile.outcome == 'success' }}
-        with:
-          SOURCE_FILE: 'src/cc-w32-d3d11.exe'
-          DEST_NAME: 'ClassiCube-Win32-Direct3D11.exe'
-          
-      - uses: ./.github/actions/upload_build
-        if: ${{ always() && steps.compile.outcome == 'success' }}
-        with:
-          SOURCE_FILE: 'src/cc-w9x-ogl.exe'
-          DEST_NAME: 'ClassiCube-Win9x.exe'
-          
-          
-      - uses: ./.github/actions/notify_success
-        if: ${{ always() && steps.compile.outcome == 'success' }}
-        with:
-          DESTINATION_URL: '${{ secrets.NOTIFY_URL }}'
-          WORKFLOW_NAME: 'win32'
-          
           
 #============================================
 # ============== 64 BIT WINDOWS =============
@@ -101,36 +61,3 @@ jobs:
           x86_64-w64-mingw32-gcc *.c ${{ env.COMMON_FLAGS }} ${{ env.WIN64_FLAGS }} -o cc-w64-d3d9.exe  $LATEST_FLAG -lwinmm -limagehlp
           x86_64-w64-mingw32-gcc *.c ${{ env.COMMON_FLAGS }} ${{ env.WIN64_FLAGS }} -o cc-w64-ogl.exe   $LATEST_FLAG -DCC_GFX_BACKEND=CC_GFX_BACKEND_GL -lwinmm -limagehlp -lopengl32
           x86_64-w64-mingw32-gcc *.c ${{ env.COMMON_FLAGS }} ${{ env.WIN64_FLAGS }} -o cc-w64-d3d11.exe $LATEST_FLAG -DCC_GFX_BACKEND=CC_GFX_BACKEND_D3D11 -lwinmm -limagehlp
-          
-          
-      - uses: ./.github/actions/notify_failure
-        if: ${{ always() && steps.compile.outcome == 'failure' }}
-        with:
-          NOTIFY_MESSAGE: 'Failed to compile 64 bit Windows build'
-          WEBHOOK_URL: '${{ secrets.WEBHOOK_URL }}'
-          
-          
-      - uses: ./.github/actions/upload_build
-        if: ${{ always() && steps.compile.outcome == 'success' }}
-        with:
-          SOURCE_FILE: 'src/cc-w64-d3d9.exe'
-          DEST_NAME: 'ClassiCube-Win64-Direct3D9.exe'
-          
-      - uses: ./.github/actions/upload_build
-        if: ${{ always() && steps.compile.outcome == 'success' }}
-        with:
-          SOURCE_FILE: 'src/cc-w64-ogl.exe'
-          DEST_NAME: 'ClassiCube-Win64-OpenGL.exe'
-          
-      - uses: ./.github/actions/upload_build
-        if: ${{ always() && steps.compile.outcome == 'success' }}
-        with:
-          SOURCE_FILE: 'src/cc-w64-d3d11.exe'
-          DEST_NAME: 'ClassiCube-Win64-Direct3D11.exe'
-          
-          
-      - uses: ./.github/actions/notify_success
-        if: ${{ always() && steps.compile.outcome == 'success' }}
-        with:
-          DESTINATION_URL: '${{ secrets.NOTIFY_URL }}'
-          WORKFLOW_NAME: 'win64'
